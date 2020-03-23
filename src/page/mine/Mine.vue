@@ -4,8 +4,9 @@
       <img class="logo" src="../../assets/ic_launcher.jpg" />
       <span class="name">请登录</span>
     </header>
+    <p>姐姐哈哈哈将军金甲夜不脱</p>
     <ul class="gridBox">
-      <li class="item" @click="toPage(grid.gridPage)"  v-for="(grid,index) in gridList">
+      <li class="item" @click="toPage(grid.gridPage)"  v-for="(grid,index) in gridList" :key='index'>
         <img class="img" :src="grid.src" alt="">
         <span class="text" :class="{'activeGuid':activeGuid==grid.gridPage}">{{grid.title}}</span></li>
       <!-- <li class="item" @click="toPage(2)">
