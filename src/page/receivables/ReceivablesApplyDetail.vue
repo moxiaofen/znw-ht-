@@ -51,9 +51,42 @@
 
     <div >
       <!-- 清单列表未写，不知格式怎么写 -->
-      <div class="item">
-             <span class="title">应收款清单</span>
+      <div class='cont-sides'>
+          <p class="cont-item">应收账款清单      
+          </p>
+          <img  class="add-img" src="static/assets/icon_add.png"  @click="addReceives()"/>
       </div>
+      <Divider></Divider>
+      <ul>
+        <li v-for="a in 2" :key='a'>
+          <div class="receivables-lib">
+
+              <div class=" item-receivables-line1">
+                <div>
+                  <span class="receivables-name">湖南大业食品有限公司</span>
+
+                  <span class="receivables-no">LA2019080100002</span>
+                </div>
+
+              </div>
+
+              <div class="item-receivables-line2">
+
+                <span class="receivables-amount">200000.0元</span>
+              </div>
+
+              <div class="item-receivables-line3">
+                <span class="receivables-data">2019-11-11</span>
+              </div>
+
+          </div>
+        </li>
+      </ul>
+     
+     
+
+
+
 
 
     </div>
@@ -81,6 +114,9 @@
 
         id:"",
         resData:{}, 
+        dataFileListCust:[],
+
+
       }
     },
     created() {
@@ -119,6 +155,11 @@
               return "已核销"
         } 
       },
+      addReceives(){
+        this.$router.push({
+          path: this.$RM.AddReceivables
+        }) //
+      },
 
     },
 
@@ -127,42 +168,108 @@
 
 <style scoped>
   .content {
+    color: #4F4F55;
+    position: relative;
     margin-top: 100px;
-    position: relative;
   }
 
 
-  .item {
+ .item {
+   display: flex;
+   flex-direction: row;
+   padding: 20px 32px 20px 32px;
+   justify-content: space-between;
+   /*background-color:burlywood;*/
+   position: relative;
+ }
+ 
+ .divider {
+   margin-left: 32px;
+   margin-right: 32px;
+ }
+ 
+ 
+ .item-left {
+   font-size: 32px;
+   border: none;
+   color: #343434;
+   font-weight: bolder;
+ }
+ 
+ .item-right {
+   font-size: 32px;
+   color: #969696;
+ 
+   border: none;
+ }
+
+  .add-img {
+    width: 50px;
+    height: 50px;
+    padding: 20px 30px 18px
+  } 
+  .cont-sides{
     display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
     flex-direction: row;
-    padding: 10px 16px 10px 16px;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
-    /*background-color:burlywood;*/
-    position: relative;
+    background-color: #fafafa;
   }
 
-  .divider {
-    margin-left: 16px;
-    margin-right: 16px;
+.receivables-lib {
+    margin-top: 10px;
   }
 
-
-  .item-left {
-    font-size: 0.4rem;
-    border: none;
-    color: #343434;
-    font-weight: bolder;
+  .img-type {
+    width: 80px;
+    height: 80px;
   }
 
-  .item-right {
-    font-size: 0.4rem;
+  .item-receivables-line1 {
+    letter-spacing: 2px;
+    color: #c9c9c9;
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .item-receivables-line2 {
+    display: flex;
+  }
+
+  .item-receivables-line3 {
+    display: flex;
+    margin-top: 10px;
+  }
+
+  .receivables-name {
+    color: #1f1f1f;
+    margin-left: 32px;
+    font-size: 36px;
+  }
+
+  .receivables-no {
     color: #969696;
+    font-size: 24px;
+  }
 
-    border: none;
+
+
+  .receivables-data {
+    margin-left: 32px;
+    color: #343434;
+    font-size: 26px;
   }
-  .title{
-    font-size: 0.45rem;
-    color: #000000;
-    font-weight: bolder;
+
+  .receivables-amount {
+    font-size: 38px;
+    margin-left: 32px;
+    color: #ff0000;
   }
+
+
 </style>

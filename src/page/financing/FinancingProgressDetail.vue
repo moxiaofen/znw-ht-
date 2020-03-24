@@ -89,11 +89,12 @@
       <!--横线-->
       <Divider class="divider"></Divider>
 
-      <div class='item'>
-        <span class='item-left'>应收账款清单</span>
+      <div class='cont-sides'>
+          <p class="cont-item">应收账款清单</p>
+          <img v-if="false"  class="add-img" src="static/assets/icon_add.png"/>
       </div>
       <ul>
-        <li v-for="(item,index) in acctList" :key='index' @click="toDetail(item.invoiceNo)">
+        <li v-for="(item,index) in acctList" :key='index' @click="toDetail(item.invoiceNo,'finance',item)">
           <div class="receivables-lib">
               <div class=" item-receivables-line1">
                 <div>
@@ -111,6 +112,7 @@
           </div>
         </li>
       </ul>
+      <div v-if='tipShow' class="tip">暂无应收账款数据</div>
 
     </div>
   </div>
@@ -137,7 +139,7 @@
         id:"",
         resData:{}, 
         acctList:[],
-
+        tipShow:false,
       }
     },
     created() {
@@ -156,16 +158,20 @@
                   this.acctList = this.resData.acctList ; 
                   console.log(res)
                   console.log(this.resData )
-                  console.log( this.acctList)              
+                  console.log( this.acctList.length) 
+                  if(this.acctList.length<1){
+                    console.log('没数据')
+                      this.tipShow = true;
+                  }             
               })
               .catch(function () {
                   this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.EXCEPTION);
               });
       },
-      toDetail(num) {
+      toDetail(num,type,item) {
         this.$router.push({
           path: this.$RM.ReceivablesDetail,
-          query:{id: num}        
+          query:{id: num,type:type,data:item}        
         })
       },
     },
@@ -260,6 +266,24 @@
     margin-left: 32px;
     color: #ff0000;
   }
-  
+  .tip{
+    color: #666;
+    padding: 10px 32px;
+  }
 
+  .add-img {
+    width: 50px;
+    height: 50px;
+    padding: 20px 30px 18px
+  } 
+  .cont-sides{
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    background-color: #fafafa;
+  }
 </style>
