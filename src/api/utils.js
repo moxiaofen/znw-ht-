@@ -61,9 +61,74 @@ function checkLicense(licen) {
     }
     return true
   }
-
-
 }
+//校验邮箱
+function checkEmail(email){
+  if (email == null || email == '') {
+    return false
+  }
+  var tempEmail = /^\w+@[a-zA-Z0-9]+\.[a-zA-Z]+$/;
+  if (!tempEmail.test(email)) {
+    return false//输入内容有误
+  }
+  return true
+}
+//验证银行卡号
+function checkBankCardNo(bankCardNo){
+  if (bankCardNo == null || bankCardNo == '') {
+    return false
+  }
+  var tempBankCardNo = /^([1-9]{1})(\d{11}|\d{18})$/;
+  if (!tempBankCardNo.test(bankCardNo)) {
+    return false//输入内容有误
+  }
+  return true
+}
+//校验护照
+function checkPassportNo(passportNo){
+  if (passportNo == null || passportNo == '') {
+    return false
+  }
+  var tempPassportNo = /(^[EeKkGgDdSsPpHh]\d{8}$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\d{7}$)/;
+  if (!tempPassportNo.test(passportNo)) {
+    return false//输入内容有误
+  }
+  return true
+}
+//校验港澳通行证  
+function checkHKMPassNo(HKMPassNo){
+  if (HKMPassNo == null || HKMPassNo == '') {
+    return false
+  }
+  var tempHKMPassNo = /^[CW]\d{8}$/;
+  if (!tempHKMPassNo.test(HKMPassNo)) {
+    return false//输入内容有误
+  }
+  return true
+}
+//校验统一社会信用代码
+function checkUSCC(USCC){
+  if (USCC == null || USCC == '') {
+    return false
+  }
+  var tempUSCC = /^([0-9A-HJ-NPQRTUWXY]{2}\d{6}[0-9A-HJ-NPQRTUWXY]{10}|[1-9]\d{14})$/;
+  if (!tempUSCC.test(USCC)) {
+    return false//输入内容有误
+  }
+  return true
+}
+//校验企业组织机构代码
+function checkCOC(COC){
+  if (COC == null || COC == '') {
+    return false
+  }
+  var tempCOC = /[A-Z0-9]{8}-[A-Z0-9]$|[A-Z0-9]{8}-[A-Z0-9]-[0-9]{2}$/;
+  if (!tempCOC.test(COC)) {
+    return false//输入内容有误
+  }
+  return true
+}
+
 /**
  * 自动生成校验参数，md5加密等工具方法
  */
@@ -438,6 +503,12 @@ export default {
   generateSignTime,
   checkLicense,
   checkPwd,
+  checkEmail, //新增
+  checkBankCardNo,
+  checkPassportNo,
+  checkHKMPassNo,
+  checkUSCC,
+  checkCOC,
   randomString,
   hidePhoneStr,
   showSize,

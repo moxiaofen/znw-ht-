@@ -144,115 +144,10 @@
       <!--横线-->
       <Divider></Divider>
 
+      <!-- 引入组件 -->
+      <new-affix :itemShow='true' :optDate='dataTypeOpt' :dataFileList='dataFileList'></new-affix>
 
-      <div class='top' >
-        <span class='common'>添加附件</span>
-        <img class="add-img" src="static/assets/icon_add.png"  @click="showPopup"/>
-      </div>
-
-      <div class="affix-lib">
-        <div class="affix-type">
-           <span >资料类型</span>
-        </div>
-
-        <div class="affix-name">
-         <span >附件名称</span>
-        </div>
-
-        <div class="affix-remark">
-            <span >备注</span>
-        </div>
-      </div>
-      <Divider></Divider>
-
-      <div class="affix-lib">
-            <div class="affix-type">
-               <span >出货单</span>
-            </div>
-
-            <div class="affix-name">
-             <span >出货单.doc</span>
-            </div>
-
-            <div class="affix-remark">
-                <span >出货单</span>
-            </div>
-          </div>
-      <Divider></Divider>
-
-      <div class="affix-lib">
-            <div class="affix-type">
-               <span >订货单</span>
-            </div>
-
-            <div class="affix-name">
-             <span >订货单.png</span>
-            </div>
-
-            <div class="affix-remark">
-                <span >订货单</span>
-            </div>
-
-          </div>
-      <Divider></Divider>
-      <!-- 弹窗 -->
-      <van-popup v-model="show" bind:close="onClose" class="pop-content">
-          <!--资料类型-->
-          <div class='top'>
-            <span class='common'>资料类型</span>
-            <!-- <van-dropdown-menu active-color="#FFC600" class="dropdown" @click.native="dropClick" ref="rDrop">
-              <van-dropdown-item v-model="vDataType" :options="dataTypeOpt" />
-            </van-dropdown-menu> -->
-            <select name="" id="" v-model="vDataType" class="pop-select" @change="getSelected">
-               <option v-for="(item,index) in dataTypeOpt" :value="item.value" :key="index">{{item.text}}</option>
-            </select>
-          </div>
-          <!--横线-->
-          <Divider></Divider>
-         
-          <!--说明-->
-          <div class='top'>
-            <span class='inputLable'>说明(资料要求)</span>
-            <input class='inputVal' type="text" ref="rFileDesc" v-model="vFileDesc" placeholder="请输入说明" />
-            <img class='clearCss' v-show="false" @click="clear('vFileDesc')" src="/static/assets/clear.png" />
-          </div>
-          <!--横线-->
-          <Divider></Divider>
-
-          <!--附件名称回填的附件名称-->
-          <div class='top'>
-            <span class='inputLable'>附件名称</span>
-            <input class='inputVal' type="text" ref="rFileName" v-model="vFileName" placeholder="请输入附件名称" />
-            <img class='clearCss' v-show="false" @click="clear('vFileName')" src="/static/assets/clear.png" />
-          </div>
-          <!--横线-->
-          <Divider></Divider> 
-
-          <div class="file">
-              <!-- <van-button icon="photo" type="primary">上传文件</van-button> -->
-              <a class="file-button">上传</a>
-              <input type="file" accept="" class="file-input" ref="inputImg" @change="handleFile" >
-          </div>
-
-          <!-- <van-uploader 
-            multiple
-            v-model="fileList"
-            accept="all"  :max-count="1"          
-            :after-read="afterRead"
-            ref="selectfile">
-            <van-button icon="photo" type="primary">上传图片</van-button>
-          </van-uploader> -->
-      </van-popup>
-      <!-- 弹窗2 -->
-      <!-- <van-popup v-model="popShow" bind:close="onClose" class="pop-content">
-          <van-cell-group>
-             <van-cell title="单元格" is-link arrow-direction="down" />
-             <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" />
-          </van-cell-group>
-      </van-popup> -->
-
-      <PopCont></PopCont>
-      <LoginButton name="提交" :isInputNonEmpty="enable" @click.native="toNext" borderRadius="6px"></LoginButton>
+      <LoginButton name="提交" :isInputNonEmpty="enable" @click.native="submit" borderRadius="6px"></LoginButton>
     </div>
   </div>
 </template>
@@ -262,13 +157,15 @@
   import Divider from '@/components/Divider.vue'
   import LoginButton from '@/components/LoginButton.vue'
   //import PopCont from './AddReceivablesPop'
+  import NewAffix from '../components/new-affix'
 
   export default {
     name: "identity",
     components: {
       ToolBar,
       Divider,
-      LoginButton
+      LoginButton,
+      NewAffix
     },
     computed: {},
 
@@ -337,7 +234,7 @@
               value: "03"
             }
         ],
-        vDataType : "",//资料类型
+        //vDataType : "",//资料类型
         dataTypeOpt:[
           {
             text: '合同',
@@ -376,16 +273,9 @@
             value: "09"
           }
         ],
-        vFileDesc:"",
-        vFileName:"",
+        // vFileDesc:"",
+        // vFileName:"",
 
-        //弹窗2
-        // showSheet: false,
-        // actions: [
-        //   { name: '选项' },
-        //   { name: '选项' },
-        //   { name: '选项', subname: '描述信息' }
-        // ]
 
 
       }
@@ -415,110 +305,12 @@
         this.date2 = this.formatDate(date);
 
       },
-      addReceives() {
-        this.$router.push({
-          path: this.$RM.AddReceivables
-        }) //
+      //上传
+      submit(){
+
       },
-      //弹窗
-      showPopup() {
-        this.show = true
-      },
-      onClose() {
-        this.show = false
-      },
-      //文件上传
-      //afterRead(event) {
-        //const { file } = event.detail;
-        // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-        // wx.uploadFile({
-        //   url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-        //   filePath: file.path,
-        //   name: 'file',
-        //   formData: { user: 'test' },
-        //   success(res) {
-        //     // 上传完成需要更新 fileList
-        //     const { fileList = [] } = this.data;
-        //     fileList.push({ ...file, url: res.data });
-        //     this.setData({ fileList });
-        //   }
-        // });
-      //},
-      handleFile(file) {
-        console.log(file)
-        console.log(file.target)
-        console.log(file.target.files.name)
-        console.log(this.$refs.inputImg.files[0])
-        const fileData = this.$refs.inputImg.files[0]
-        this.vFileName = fileData.name;
-        //console.log(file)
-          // let content = file.file;
-          // console.log(file)
-          // console.log(file.file)
-          // console.log(content)
-          // this.vFileName = content.name;
-            // const file = this.$refs.inputImg.files;
-            // console.log(file)
-            // // createObjectURL传入File类型的数据创建url，可以在浏览器看到网络请求
-            // const ObjectURL = URL.createObjectURL(file);
-            // console.log(ObjectURL)
-            // const rimg = this.$refs.img;
-            // rimg.src = ObjectURL;
-            // rimg.onload = function(img) {
-            //     URL.revokeObjectURL(this.src);  // 释放createObjectURL创建的对象##
-            // }
-      },
-      //afterRead(file) {
-          //文件读取完成后的回调函数
-          // let content = file.file;
-          // console.log(file)
-          // console.log(file.file)
-          // console.log(content)
-          // this.vFileName = content.name;
-          // //创建一个新的FormData
-          // let formData = new FormData();
-          // // upload这个名字是后台给的
-          // formData.append("upload", content);
-          // //获取formdata表单所有的数据
-          // console.log(formData.getAll(""));
-          // axios
-          //   .post(
-                //服务器上传地址
-          //     `http://xxxxxxxxxxxx`,
-              //服务器需要的数据，此处是formdata表单
-          //     formData,
-              //如果默认请求头是json，需要改一下请求头数据格式
-          //     {
-          //       "Content-Type": "multipart/form-data"
-          //     }
-          //   )
-          //   .then(res => {
-          //     console.log(res);
-          //     console.log(res.config.headers);
-          //   });
-        // axios({
-        //   method: "post",
-        //   //服务器上传地址
-        //   url: `http://xxxxxxxxxxxxxxxxxxxxxxxxxxx`,
-        //   data: formData,
-        //   headers: {
-        //     // 修改请求头
-        //     "Content-Type": "multipart/form-data"
-        //   }
-        // }).then(res => {
-        //   console.log(res);
-        //   console.log(res.config.headers);
-        // });
-      //},
-      //弹窗下拉框点击事件
-      dropClick(){
-          
-      },
-      //弹窗多选框
-　　　getSelected(){
-          //获取选中的优惠券
-          console.log(this.vDataType)
-      }
+
+
 
     }
 

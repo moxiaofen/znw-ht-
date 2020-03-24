@@ -134,7 +134,7 @@
           //this.$http.post(url,{"acctCode": "AARI2019061100000141"})//有数据
               .then(function (res) {
                   this.resData = JSON.parse(res.data); 
-                  //console.log(this.resData)               
+                  console.log(this.resData)               
               })
               .catch(function () {
                   this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.EXCEPTION);

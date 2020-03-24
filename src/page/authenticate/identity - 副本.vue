@@ -102,19 +102,29 @@
     <!--横线-->
     <Divider></Divider>
 
-    <!-- 引入组件 -->
-    <new-affix :itemShow='cust' :optDate='dataTypeOpt' :dataFileList='dataFileList'></new-affix>
-
-    <!-- <div class='cont-sides'>
+    <div class='cont-sides'>
         <p class="cont-item">附件信息      
         </p>
         <img  v-if="cust" class="add-img" src="static/assets/icon_add.png"  @click="showPopup"/>
-    </div> -->
+    </div>
 
+
+    <ul class="photoBox"  v-if="!cust">
+      <li class="item photo-item">
+        <img class="img-photo" ref='img1' alt="handleFile" :src="src1" />
+        <input type="file" accept="image/*" class="img-input" ref="inputImg1" @change="handleFileId('inputImg1')">
+        <p>身份证正面</p>
+      </li>
+      <li class="item photo-item">
+        <img class="img-photo" ref='img2' alt="handleFile" :src="src2" />
+        <input type="file" accept="image/*" class="img-input" ref="inputImg2" @change="handleFileId('inputImg2')">
+        <p>身份证反面</p>
+      </li>
+    </ul>
     <!-- 免责说明 -->
-    <!-- <Divider></Divider> -->
+    <Divider></Divider>
     <!-- 客户认证上传数据列表 -->
-    <!-- <div v-if="cust">
+    <div v-if="cust">
       <div class="affix-lib">
         <div class="affix-type">
            <span >资料类型</span>
@@ -146,37 +156,37 @@
 
     </div>
 
-    <Divider></Divider> -->
+      <Divider></Divider>
 
     <!-- 弹窗 -->
-    <!-- <van-popup v-model="show" bind:close="onClose" class="pop-content"> -->
+    <van-popup v-model="show" bind:close="onClose" class="pop-content">
         <!--资料类型-->
-        <!-- <div class='top'>
+        <div class='top'>
           <span class='common'>资料类型</span>
           <select name="" id="" v-model="vDataType" class="pop-select" @change="getSelected">
               <option v-for="(item,index) in dataTypeOpt" :value="item.value" :key="index">{{item.text}}</option>
           </select>
-        </div> -->
+        </div>
         <!--横线-->
-        <!-- <Divider></Divider> -->
+        <Divider></Divider>
         
         <!--说明-->
-        <!-- <div class='top'>
+        <div class='top'>
           <span class='inputLable'>说明(资料要求)</span>
           <input class='inputVal' type="text" ref="rFileDesc" v-model="vFileDesc" placeholder="请输入说明" />
           <img class='clearCss' v-show="vFileDesc" @click="clear('vFileDesc')" src="/static/assets/clear.png" />
-        </div> -->
+        </div>
         <!--横线-->
-        <!-- <Divider></Divider> -->
+        <Divider></Divider>
 
         <!--附件名称回填的附件名称-->
-        <!-- <div class='top'>
+        <div class='top'>
           <span class='inputLable'>附件名称</span>
           <input class='inputVal' type="text" ref="rFileName" v-model="vFileName" placeholder="请输入附件名称" />
           <img class='clearCss' readonly="true" v-show="vFileName" @click="clear('vFileName')" src="/static/assets/clear.png" />
-        </div> -->
+        </div>
         <!--横线-->
-        <!-- <Divider></Divider> 
+        <Divider></Divider> 
 
         <div class="file">
             <img class="img-photo hide" ref='img' alt="handleFileList" :src="src" />
@@ -187,23 +197,10 @@
         <div class="file tac">
             <a class="file-button confirm" @click="submitHandleFile">确定</a>
             <a class="file-button cancel" @click="onClose">取消</a>
-        </div> -->
+        </div>
 
-    <!-- </van-popup> -->
+    </van-popup>
 
-    <!-- 个人认证图片上传 -->
-    <ul class="photoBox"  v-if="!cust">
-      <li class="item photo-item">
-        <img class="img-photo" ref='img1' alt="handleFile" :src="src1" />
-        <input type="file" accept="image/*" class="img-input" ref="inputImg1" @change="handleFileId('inputImg1')">
-        <p>身份证正面</p>
-      </li>
-      <li class="item photo-item">
-        <img class="img-photo" ref='img2' alt="handleFile" :src="src2" />
-        <input type="file" accept="image/*" class="img-input" ref="inputImg2" @change="handleFileId('inputImg2')">
-        <p>身份证反面</p>
-      </li>
-    </ul>
 
     <div class='protocol'>
       <!--导入复选框组件-->
@@ -222,17 +219,13 @@
   import ToolBar from '@/components/ToolBar2.vue'
   import Divider from '@/components/Divider.vue'
   import LoginButton from '@/components/LoginButton.vue'
-
-  import NewAffix from '../components/new-affix'
-
     export default {
         name: "identity",
         components: {
           Checkbox,
           ToolBar,
           Divider,
-          LoginButton,
-          NewAffix
+          LoginButton
         },
         computed: {},
 
@@ -273,7 +266,7 @@
               src1: 'https://img.yzcdn.cn/vant/cat.jpeg',
               src2: 'https://img.yzcdn.cn/vant/cat.jpeg',
               //附件参数
-              dataFileLists:[],
+              dataFileList:[],
 
               show: false,//测试时为true
 
@@ -302,11 +295,11 @@
               ],
 
 
-              // vFileDesc:"",
-              // vFileName:"",
-              // src:"",
+              vFileDesc:"",
+              vFileName:"",
+              src:"",
               dataFileListId:[],
-              // dataFileListCust:[],
+              dataFileListCust:[],
 
 
 
@@ -408,44 +401,44 @@
              return dataFileId
           },
           //上传多种文件
-          // handleFileCust() {
-          //     //console.log()
-          //     const file = this.$refs.inputImg.files[0]
-          //     console.log(file)
-          //     this.vFileName = file.name;
-          //     const rimg = this.$refs.img;
-          //     var reader = new FileReader();
-          //     reader.readAsDataURL(file);
-          //     reader.onload = function (e) {
-          //             rimg.src = e.target.result;
-          //     }
-          //     var dataFileCust = {
-          //       dataType : this.vDataType ,
-          //       fileName : this.vFileName ,
-          //       fileDesc : this.vFileDesc 
-          //    }
-          //     //获取其他file文件，用new FormData()
-          //   //   this.vFileName = this.$refs.inputImg.files[0].name;
-          //   //   var fd = new FormData();
-          //   //   fd.append('file',this.$refs.inputImg.files[0])
+          handleFileCust() {
+              //console.log()
+              const file = this.$refs.inputImg.files[0]
+              console.log(file)
+              this.vFileName = file.name;
+              const rimg = this.$refs.img;
+              var reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = function (e) {
+                      rimg.src = e.target.result;
+              }
+              var dataFileCust = {
+                dataType : this.vDataType ,
+                fileName : this.vFileName ,
+                fileDesc : this.vFileDesc 
+             }
+              //获取其他file文件，用new FormData()
+            //   this.vFileName = this.$refs.inputImg.files[0].name;
+            //   var fd = new FormData();
+            //   fd.append('file',this.$refs.inputImg.files[0])
 
-          //    console.log(dataFileCust)
-          //    return dataFileCust
-          // },
+             console.log(dataFileCust)
+             return dataFileCust
+          },
 
-          // //企业认证上传列表确定
-          // submitHandleFile(){
-          //     //inputfile的base64字符串去掉','前的部分，不然传给后端的数据有误
-          //     const dataFileCust = this.handleFileCust();
-          //     dataFileCust.fileInput = this.$refs.img.src.slice(22);
-          //     this.dataFileListCust.push(dataFileCust);
-          //     console.log(this.dataFileListCust);
-          //     this.show = false;
-          // },
-          // //删除企业认证列表
-          // clearFile(index){
-          //     this.dataFileListCust.splice(index, 1);
-          // },
+          //企业认证上传列表确定
+          submitHandleFile(){
+              //inputfile的base64字符串去掉','前的部分，不然传给后端的数据有误
+              const dataFileCust = this.handleFileCust();
+              dataFileCust.fileInput = this.$refs.img.src.slice(22);
+              this.dataFileListCust.push(dataFileCust);
+              console.log(this.dataFileListCust);
+              this.show = false;
+          },
+          //删除企业认证列表
+          clearFile(index){
+              this.dataFileListCust.splice(index, 1);
+          },
           //协议勾选状态判断
           onCheckChange: function (val) {
             this.check = val
@@ -478,14 +471,14 @@
                   this.dataFileListId[0].fileInput = this.$refs.img1.src.slice(22);
                   this.dataFileListId[1] = this.handleFileId('inputImg2');
                   this.dataFileListId[1].fileInput = this.$refs.img1.src.slice(22);
-                  this.handleFileLists = this.dataFileListId;
+                  this.handleFileList = this.dataFileListId;
               }else{
                   //企业验证custName custIdType custIdNo
                   // if(!this.checkCustIdNo('vCustIdNo')){     
                   //   this.$toast('数据有误，请检查！');
                   //   return 
                   // } 
-                  this.handleFileLists = this.dataFileListCust ;
+                  this.handleFileList = this.dataFileListCust ;
 
               }
               const userId = sessionStorage.getItem('userId')
@@ -508,7 +501,7 @@
                 "bankCardNo":this.vBankCardNo,
                 "bankCardPhone":this.vBankCardPhone,    
                 "email":this.vEmail,
-                "dataFileList" : this.handleFileLists             
+                "dataFileList" : this.handleFileList             
               }
               console.log(data)
               this.$http.post(url, data)
@@ -534,37 +527,37 @@
               console.info('>>>>>>>>>>>>身份认证>>>>end>>>>>>>>')     
           },
           //弹窗
-          // showPopup() {
-          //   this.show = true;
-          //   this.vFileDesc = '';
-          //   this.vFileName = '';
-          //   this.src = '';
-          // },
-          // onClose() {
-          //   this.show = false
-          // },
+          showPopup() {
+            this.show = true;
+            this.vFileDesc = '';
+            this.vFileName = '';
+            this.src = '';
+          },
+          onClose() {
+            this.show = false
+          },
           //格式化
-          // formatDataType(num){
-          //   switch(num) {
-          //       case "01":
-          //           return "营业执照";
-          //           break;
-          //       case "02":
-          //           return "法人身份证明";
-          //           break;
-          //       case "03":
-          //           return "开户许可证";
-          //           break;
-          //       case "04":
-          //           return "护照";
-          //           break;
-          //       case "05":
-          //           return "其他";
-          //           break;
-          //       default:
-          //         return ""
-          //   } 
-          // },
+          formatDataType(num){
+            switch(num) {
+                case "01":
+                    return "营业执照";
+                    break;
+                case "02":
+                    return "法人身份证明";
+                    break;
+                case "03":
+                    return "开户许可证";
+                    break;
+                case "04":
+                    return "护照";
+                    break;
+                case "05":
+                    return "其他";
+                    break;
+                default:
+                  return ""
+            } 
+          },
  
         },
 
