@@ -103,7 +103,93 @@
     <Divider></Divider>
 
     <!-- 引入组件 -->
-    <new-affix :itemShow='cust' :optDate='dataTypeOpt' :dataFileList='dataFileLists'></new-affix>
+    <new-affix :itemShow='cust' :optDate='dataTypeOpt' :dataFileList='dataFileList'></new-affix>
+
+    <!-- <div class='cont-sides'>
+        <p class="cont-item">附件信息      
+        </p>
+        <img  v-if="cust" class="add-img" src="static/assets/icon_add.png"  @click="showPopup"/>
+    </div> -->
+
+    <!-- 免责说明 -->
+    <!-- <Divider></Divider> -->
+    <!-- 客户认证上传数据列表 -->
+    <!-- <div v-if="cust">
+      <div class="affix-lib">
+        <div class="affix-type">
+           <span >资料类型</span>
+        </div>
+
+        <div class="affix-name">
+         <span >附件名称</span>
+        </div>
+
+        <div class="affix-remark">
+            <span >备注</span>
+        </div>
+      </div>
+      <div v-for="(item,index) in dataFileListCust" :key="index">
+          <div class="affix-lib por">
+            <div class="affix-type">
+              <span >{{formatDataType(item.dataType)}}</span>
+            </div>
+            <div class="affix-name">
+            <span >{{item.fileName}}</span>
+            </div>
+
+            <div class="affix-remark">
+                <span >{{item.fileDesc}}</span>
+            </div>
+            <img class='clear-file' @click="clearFile(index)" src="/static/assets/gray-del.png"/>
+          </div>
+      </div>
+
+    </div>
+
+    <Divider></Divider> -->
+
+    <!-- 弹窗 -->
+    <!-- <van-popup v-model="show" bind:close="onClose" class="pop-content"> -->
+        <!--资料类型-->
+        <!-- <div class='top'>
+          <span class='common'>资料类型</span>
+          <select name="" id="" v-model="vDataType" class="pop-select" @change="getSelected">
+              <option v-for="(item,index) in dataTypeOpt" :value="item.value" :key="index">{{item.text}}</option>
+          </select>
+        </div> -->
+        <!--横线-->
+        <!-- <Divider></Divider> -->
+        
+        <!--说明-->
+        <!-- <div class='top'>
+          <span class='inputLable'>说明(资料要求)</span>
+          <input class='inputVal' type="text" ref="rFileDesc" v-model="vFileDesc" placeholder="请输入说明" />
+          <img class='clearCss' v-show="vFileDesc" @click="clear('vFileDesc')" src="/static/assets/clear.png" />
+        </div> -->
+        <!--横线-->
+        <!-- <Divider></Divider> -->
+
+        <!--附件名称回填的附件名称-->
+        <!-- <div class='top'>
+          <span class='inputLable'>附件名称</span>
+          <input class='inputVal' type="text" ref="rFileName" v-model="vFileName" placeholder="请输入附件名称" />
+          <img class='clearCss' readonly="true" v-show="vFileName" @click="clear('vFileName')" src="/static/assets/clear.png" />
+        </div> -->
+        <!--横线-->
+        <!-- <Divider></Divider> 
+
+        <div class="file">
+            <img class="img-photo hide" ref='img' alt="handleFileList" :src="src" />
+            <a class="file-button">上传</a>
+            <input type="file" multiple class="file-input" ref="inputImg" @change="handleFileCust" >
+        </div>
+
+        <div class="file tac">
+            <a class="file-button confirm" @click="submitHandleFile">确定</a>
+            <a class="file-button cancel" @click="onClose">取消</a>
+        </div> -->
+
+    <!-- </van-popup> -->
 
     <!-- 个人认证图片上传 -->
     <ul class="photoBox"  v-if="!cust">
@@ -124,10 +210,8 @@
       <Checkbox class="checkbox" @onCheckChange="onCheckChange"></Checkbox>
       <div class='tips'>请阅读并同意<span @click="toProcol" style="color:#FFC600">《免责说明》</span></div>
     </div>
-
-    <div class="btn-box">
-        <LoginButton name="提交" :isInputNonEmpty="enable" @click.native="submitId" borderRadius="6px"></LoginButton>
-    </div>
+    
+    <LoginButton name="提交" :isInputNonEmpty="enable" @click.native="submitId" borderRadius="6px"></LoginButton>
 
   </div>
 </div>
@@ -182,14 +266,18 @@
               vBankCardNo : '',
               vBankCardPhone :'',
               vEmail :'',
+  
+
               cust : false, //客户认证
-              //src: 'https://img.yzcdn.cn/vant/cat.jpeg',
-              src1: '/static/assets/upload_photo.png',
-              src2: '/static/assets/upload_photo.png',
+              src: 'https://img.yzcdn.cn/vant/cat.jpeg',
+              src1: 'https://img.yzcdn.cn/vant/cat.jpeg',
+              src2: 'https://img.yzcdn.cn/vant/cat.jpeg',
+              //附件参数
+              dataFileLists:[],
 
               show: false,//测试时为true
 
-              //vDataType : "01",//资料类型
+              vDataType : "01",//资料类型
               dataTypeOpt:[
                 {
                   text: '营业执照',
@@ -212,11 +300,16 @@
                   value: "05"
                 }
               ],
+
+
+              // vFileDesc:"",
+              // vFileName:"",
+              // src:"",
               dataFileListId:[],
-              //总参数
-              handleFileList:[],
-              dataFileLists:[],//附件参数
-              //dataFileList:[],//要上传的数据
+              // dataFileListCust:[],
+
+
+
 
             }
         },
@@ -235,25 +328,19 @@
           checkPhone(tel) {
               // if (!this.$utils.checkPhone(this[tel])) {
               //     this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201018);
-              //     return false
               // }  
-              // return true
           },
           //校验邮箱
           checkEmail(){           
               // if (!this.$utils.checkEmail(this.vEmail)) {
               //     this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201019);
-              //     return false
-              // } 
-              // return true
+              // }  
           },
           //校验银行卡号
           checkBankCardNo(){           
               // if (!this.$utils.checkBankCardNo(this.vBankCardNo)) {
               //     this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201020);
-              //     return false
-              // }
-              // return true  
+              // }  
           },
 
           //校验个人证件号码
@@ -261,21 +348,15 @@
               // if(this.vIdType == '01'){
               //    if (!this.$utils.checkIdcard(this[vIdNo])) {
               //       this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201021);
-              //       return false
               //    } 
-              //    return true
               // }else if(this.vIdType == '02'){
               //    if (!this.$utils.checkPassportNo(this[vIdNo])) {
               //       this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201022);
-              //       return false
               //    } 
-              //    return true
               // }else if(this.vIdType == '03'){
               //    if (!this.$utils.checkHKMPassNo(this[vIdNo])) {
               //       this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201023);
-              //       return false
               //    } 
-              //    return true
               // }     
           },
           //校验企业证件号码
@@ -283,15 +364,11 @@
               // if(this.vCustIdType == '01'){
               //    if (!this.$utils.checkUSCC(this[vCustIdNo])) {
               //       this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201024);
-              //       return false
-              //    }
-              //    return true 
+              //    } 
               // }else if(this.vCustIdType == '02'){
               //    if (!this.$utils.checkCOC(this[vCustIdNo])) {
               //       this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.RTN_201025);
-              //       return false
-              //   } 
-              //   return true
+              //    } 
               // }     
           },
 
@@ -300,7 +377,7 @@
               //value值为01，不显示企业认证
               this.cust = value=="02"? false : true;
               console.log(this.cust)
-              //this.handleFileList ='';
+              this.handleFileList ='';
           },
           //上传图片
           handleFileId(e) {
@@ -330,7 +407,45 @@
              }
              return dataFileId
           },
-        
+          //上传多种文件
+          // handleFileCust() {
+          //     //console.log()
+          //     const file = this.$refs.inputImg.files[0]
+          //     console.log(file)
+          //     this.vFileName = file.name;
+          //     const rimg = this.$refs.img;
+          //     var reader = new FileReader();
+          //     reader.readAsDataURL(file);
+          //     reader.onload = function (e) {
+          //             rimg.src = e.target.result;
+          //     }
+          //     var dataFileCust = {
+          //       dataType : this.vDataType ,
+          //       fileName : this.vFileName ,
+          //       fileDesc : this.vFileDesc 
+          //    }
+          //     //获取其他file文件，用new FormData()
+          //   //   this.vFileName = this.$refs.inputImg.files[0].name;
+          //   //   var fd = new FormData();
+          //   //   fd.append('file',this.$refs.inputImg.files[0])
+
+          //    console.log(dataFileCust)
+          //    return dataFileCust
+          // },
+
+          // //企业认证上传列表确定
+          // submitHandleFile(){
+          //     //inputfile的base64字符串去掉','前的部分，不然传给后端的数据有误
+          //     const dataFileCust = this.handleFileCust();
+          //     dataFileCust.fileInput = this.$refs.img.src.slice(22);
+          //     this.dataFileListCust.push(dataFileCust);
+          //     console.log(this.dataFileListCust);
+          //     this.show = false;
+          // },
+          // //删除企业认证列表
+          // clearFile(index){
+          //     this.dataFileListCust.splice(index, 1);
+          // },
           //协议勾选状态判断
           onCheckChange: function (val) {
             this.check = val
@@ -339,24 +454,21 @@
           //提交
           submitId(){
               //console.log('提交')
-              console.log(this.handleFileList)
-                console.log(this.dataFileListId)
-               console.log(this.dataFileLists)            
+              //this.getHandleDate()
               if (!this.check) {
                 this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.CHECKBOXSTU_REGISTER_ERROR);
                 return
               }
               //数据校验
-              // if(!this.checkIdNo('vIdNo') || !this.checkPhone('vTel')){  
-              //   console.log('检查1') 
+              //if(!this.checkIdNo('vIdNo') &&!this.checkPhone('vTel') &&!this.checkPhone('vBankCardPhone') && !this.checkEmail() && !this.checkBankCardNo() && !this.checkIdNo('vIdNo') && !this.checkCustIdNo('vCustIdNo')){
+              // if(!this.checkIdNo('vIdNo') &&!this.checkPhone('vTel') && !this.checkIdNo('vIdNo')){   
               //   this.$toast('数据有误，请检查！');
               //   return 
               // }                 
-              //this.handleFileList ='';//总附件数清空
+              this.handleFileList ='';
               if(this.vAuthType == '02' ){
                   //个人验证 bankCardNo bankCardPhone email
-                  // if(!this.checkPhone('vBankCardPhone') || !this.checkEmail() || !this.checkBankCardNo()){  
-                  //   console.log('检查2')     
+                  // if(!this.checkPhone('vBankCardPhone') && !this.checkEmail() && !this.checkBankCardNo()){      
                   //   this.$toast('数据有误，请检查！');
                   //   return 
                   // } 
@@ -366,15 +478,15 @@
                   this.dataFileListId[0].fileInput = this.$refs.img1.src.slice(22);
                   this.dataFileListId[1] = this.handleFileId('inputImg2');
                   this.dataFileListId[1].fileInput = this.$refs.img1.src.slice(22);
-                  this.handleFileList = this.dataFileListId;
+                  this.handleFileLists = this.dataFileListId;
               }else{
                   //企业验证custName custIdType custIdNo
-                  // if(!this.checkCustIdNo('vCustIdNo')){  
-                  //   console.log('检查3')    
+                  // if(!this.checkCustIdNo('vCustIdNo')){     
                   //   this.$toast('数据有误，请检查！');
                   //   return 
                   // } 
-                  this.handleFileList = this.dataFileLists ;                 
+                  this.handleFileLists = this.dataFileListCust ;
+
               }
               const userId = sessionStorage.getItem('userId')
               console.log(userId)
@@ -384,7 +496,7 @@
               //传过去的数据
               const data = {
                 //"userId": userId,
-                "userId": '20200325105006004300000000000378',
+                "userId": '20200318140157004300000000000373',
                 "authType":this.vAuthType,
                 "custName":this.vCustName,
                 "custIdType":this.vCustIdType,
@@ -396,7 +508,7 @@
                 "bankCardNo":this.vBankCardNo,
                 "bankCardPhone":this.vBankCardPhone,    
                 "email":this.vEmail,
-                "dataFileList" : this.handleFileList             
+                "dataFileList" : this.handleFileLists             
               }
               console.log(data)
               this.$http.post(url, data)
@@ -421,7 +533,38 @@
                 });
               console.info('>>>>>>>>>>>>身份认证>>>>end>>>>>>>>')     
           },
-
+          //弹窗
+          // showPopup() {
+          //   this.show = true;
+          //   this.vFileDesc = '';
+          //   this.vFileName = '';
+          //   this.src = '';
+          // },
+          // onClose() {
+          //   this.show = false
+          // },
+          //格式化
+          // formatDataType(num){
+          //   switch(num) {
+          //       case "01":
+          //           return "营业执照";
+          //           break;
+          //       case "02":
+          //           return "法人身份证明";
+          //           break;
+          //       case "03":
+          //           return "开户许可证";
+          //           break;
+          //       case "04":
+          //           return "护照";
+          //           break;
+          //       case "05":
+          //           return "其他";
+          //           break;
+          //       default:
+          //         return ""
+          //   } 
+          // },
  
         },
 
@@ -647,10 +790,8 @@
     right: 0;
     width: 26px;
     height: auto;
-  }
-  .btn-box{
-    padding:0 20px 20px;
-  }
 
+
+  }
 
 </style>

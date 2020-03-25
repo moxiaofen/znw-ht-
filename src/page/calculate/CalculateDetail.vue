@@ -7,71 +7,68 @@
 
       <div class='item'>
         <span class='item-left'>合同编号</span>
-        <span class='item-right'>CON2019999</span>
+        <span class='item-right'>{{resData.contractNo}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
       <div class='item'>
         <span class='item-left'>提款编号</span>
-        <span class='item-right'>LA201901101</span>
+        <span class='item-right'>{{resData.loanNo}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
       <div class='item'>
         <span class='item-left'>融资金额（元）</span>
-        <span class='item-right'>20000.00</span>
+        <span class='item-right'>{{resData.loanAmt}}20000.00</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
       <div class='item'>
         <span class='item-left'>融资余额（元）</span>
-        <span class='item-right'>2000.00</span>
+        <span class='item-right'>{{resData.loanBal}}2000.00</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
       <div class='item'>
         <span class='item-left'>出账日</span>
-        <span class='item-right'>2019-01-01</span>
+        <span class='item-right'>{{resData.loanDate}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
       <div class='item'>
         <span class='item-left'>融资期限</span>
-        <span class='item-right'>60天</span>
+        <span class='item-right'>{{resData.loanTerm}}60天</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
       <div class='item'>
         <span class='item-left'>保理融资款（元）</span>
-        <span class='item-right'>20.00</span>
+        <span class='item-right'>{{resData.factoringLoanAmt}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
-
 
       <div class='item'>
         <span class='item-left'>保理服务费（元）</span>
-        <span class='item-right'>2000.00</span>
+        <span class='item-right'>{{resData.factoringServiceFee}}2000.00</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
-
-      <div class='item'>
+      <div class='item' v-if='resData.repaymentBreakAmt'>
         <span class='item-left'>提前还款违约金</span>
-        <span class='item-right'>2000.00</span>
+        <span class='item-right'>{{resData.repaymentBreakAmt}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
-
-      <div class='item'>
+      <div class='item' v-if='resData.acctManagerAmt'>
         <span class='item-left'>账户管理费</span>
-        <span class='item-right'>12.0</span>
+        <span class='item-right'>{{resData.acctManagerAmt}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
@@ -79,14 +76,14 @@
 
       <div class='item'>
         <span class='item-left'>还款总额（元）</span>
-        <span class='item-right'>现金</span>
+        <span class='item-right'>{{resData.repaymentTotalAmt}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
 
       <div class='item'>
         <span class='item-left'>项目经理</span>
-        <span class='item-right'>张三</span>
+        <span class='item-right'>{{resData.projectManager}}</span>
       </div>
       <!--横线-->
       <Divider class="divider"></Divider>
@@ -127,7 +124,7 @@
           this.$http.post(url,{"loanNo": this.id})
               .then(function (res) {
                   this.resData = JSON.parse(res.data); 
-                  //console.log(this.resData)               
+                  console.log(this.resData)               
               })
               .catch(function () {
                   this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.EXCEPTION);
@@ -149,7 +146,7 @@
   .item {
     display: flex;
     flex-direction: row;
-    padding: 10px 16px 10px 16px;
+    padding: 20px 32px 20px 32px;
     justify-content: space-between;
     /*background-color:burlywood;*/
     position: relative;

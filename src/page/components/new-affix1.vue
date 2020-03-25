@@ -22,7 +22,7 @@
             <span >备注</span>
         </div>
       </div>
-      <div v-for="(item,index) in dataFileList" :key="index">
+      <div v-for="(item,index) in handleFileList" :key="index">
           <div class="affix-lib por">
             <div class="affix-type">
               <span >{{item.dataText}}</span>
@@ -47,7 +47,7 @@
         <!--资料类型-->
         <div class='top'>
           <span class='common'>资料类型</span>
-          <select name="" id=""  v-model="selected"  class="pop-select" @change.stop ="getSelected">
+          <select name="" id=""  v-model="selected"  class="pop-select">
               <!-- option的value赋值对象 -->
               <option v-for="(item,index) in optDate" :value="item" :key="index">{{item.text}}</option>
           </select>  
@@ -97,7 +97,7 @@
         components: {
           Divider,
         },
-        props:["optDate",'itemShow','dataFileList'],
+        props:["optDate",'itemShow','handleFileList'],
         computed: {},
         data() {
             return {
@@ -110,7 +110,7 @@
               vFileDesc:"",
               vFileName:"",
               src:"",
-              dataFileList:[],
+              handleFileList:[],
             }
         },
         mounted(){
@@ -153,13 +153,13 @@
               //inputfile的base64字符串去掉','前的部分，不然传给后端的数据有误
               const dataFile = this.handleFile();
               dataFile.fileInput = this.$refs.img.src.slice(22);
-              this.dataFileList.push(dataFile);
-              console.log(this.dataFileList);
+              this.handleFileList.push(dataFile);
+              console.log(this.handleFileList);
               this.show = false;
           },
           //删除企业认证列表
           clearFile(index){
-              this.dataFileList.splice(index, 1);
+              this.handleFileList.splice(index, 1);
           },
 
           //弹窗

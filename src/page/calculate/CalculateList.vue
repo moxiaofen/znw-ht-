@@ -16,38 +16,27 @@
                 <div class=" item-line1">
                   <div>
                     <span class="contract-name">合同编号</span>
-
-                    <span class="contract-no">NO.2019080100002</span>
+                    <span class="contract-no">{{item.contractNo}}</span>
                   </div>
-
                 </div>
-
                 <div class="item-line2">
                   <div class="item-line2-div">
                     <div class="item-box-dev">
-
                       <span class="item-title">融资金额</span>
                     </div>
-
-                    <span class="item-title2">10000.00</span>
+                    <span class="item-title2">{{item.loanAmt}}</span>
                   </div>
-
                   <div class="item-line2-div">
                     <div class="item-box-dev">
-
                       <span class="item-title">融资余额</span>
                     </div>
-
-                    <span class="item-title3">10000.00</span>
+                    <span class="item-title3">{{item.loanBal}}</span>
                   </div>
-
-
                 </div>
-
                 <div class="item-line3">
-                  <span>经理 张三</span>
-                  <span>期限 60天</span>
-                    <span>2019-01-01</span>
+                  <span>经理 {{item.projectManager}}</span>
+                  <span>期限 {{item.loanTerm}}</span>
+                    <span>{{item.loanDate}}</span>
                 </div>
               </div>
             </li>
@@ -86,14 +75,14 @@
     methods: {
       toDetail(num) {
         this.$router.push({
-          path: this.$RM.BrokerProgressDetail,
+          path: this.$RM.CalculateDetail,
           query:{id: num}        
         })
       },
       //获取列表
       queryCalculateList() {
            const url = this.$api.ROOT + this.$Constants.QUERY_CALCULATE_LIST;
-           this.$http.post(url,{"contract":{"custNo":"C000210","pageNo":this.pageIndex,"pageSize":this.pageSize}})
+           this.$http.post(url,{"contract":{"custNo":"C000259","pageNo":this.pageIndex,"pageSize":this.pageSize}})       
            .then(function (res) {
                const data = JSON.parse(res.data);
                const records = data.records

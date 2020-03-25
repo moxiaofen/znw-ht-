@@ -4,6 +4,37 @@
 
     <div class="content">
       <!--与顶部保持距离-->
+      <p class="cont-item">合同信息</p>
+      <div>
+        <div class='item'>
+            <span class='item-left'>合同编号</span>
+            <span class='item-right'>{{resData.contractNo}}</span>
+        </div>
+        <!--横线-->
+        <Divider class="divider"></Divider>
+
+        <div class='item'>
+            <span class='item-left'>合同名称</span>
+            <span class='item-right'>{{resData.contractName}}</span>
+        </div>
+        <!--横线-->
+        <Divider class="divider"></Divider>
+
+        <div class='item'>
+            <span class='item-left'>合同生效日</span>
+            <span class='item-right'>{{resData.signDate}}</span>
+        </div>
+        <!--横线-->
+        <Divider class="divider"></Divider>
+
+        <div class='item'>
+            <span class='item-left'>融资金额</span>
+            <span class='item-right'>{{resData.loanAmt}}</span>
+        </div>
+        <!--横线-->
+        <Divider class="divider"></Divider>
+      </div>
+
       <p class="cont-item">额度信息</p>
       <div>
         <div class='item'>
@@ -48,6 +79,13 @@
 
       </div>
     
+      <p class="cont-item">应收账款信息</p>
+      <listtable-acct :acctList='acctList'></listtable-acct>
+
+      <p class="cont-item">提款信息</p>
+      <listtable-payment :paymentList='paymentList'></listtable-payment>
+
+
       <p class="cont-item">对账信息</p>
       <div>
         <!--对账结果-->
@@ -69,7 +107,6 @@
         <Divider></Divider>
 
       </div>
-
       <LoginButton name="提交" :isInputNonEmpty="enable" @click.native="toNext" borderRadius="6px"></LoginButton>
 
     </div>
@@ -81,12 +118,18 @@
   import ToolBar from '@/components/ToolBar2.vue'
   import Divider from '@/components/Divider.vue'
   import LoginButton from '@/components/LoginButton.vue'
+
+  import ListtableAcct from '../components/listtable-acct'
+  import ListtablePayment from '../components/listtable-payment'
+
   export default {
     name: "identity",
     components: {
       ToolBar,
       Divider,
-      LoginButton
+      LoginButton,
+      ListtableAcct,
+      ListtablePayment
     },
     computed: {},
 
@@ -96,7 +139,20 @@
         nonet: false, //断网
 
         id:"",
-        resData:{},     
+        resData:{}, 
+        vCheckFlag:'1',
+        checkFlagOpt:[
+            {
+              value:'1',
+              text:'确认无误'
+            },
+            {
+              value:'2',
+              text:'确认有误'
+            },
+        ],
+        acctList:[],//应收账款信息列表 
+        paymentList:[],//提款信息
       }
     },
     created() {
@@ -107,10 +163,16 @@
       queryLedgerDetail() {
           this.id = this.$route.query.id;
           const url = this.$api.ROOT + this.$Constants.QUERY_LEDGER_DETAIL;
-          this.$http.post(url,{"contractNo":{"contractNo": this.id}})
-              .then(function (res) {
+          //this.$http.post(url,{"contractNo":{"contractNo": this.id}})
+          this.$http.post(url,{"contractNo":{"contractNo": '001'}})
+           .then(function (res) {
                   this.resData = JSON.parse(res.data); 
-                  //console.log(this.resData)               
+                  this.acctList = this.resData.acctList;
+                  this.paymentList = this.resData.paymentList;
+                  
+                  console.log(this.resData)
+                  console.log(this.acctList)   
+                  console.log(this.paymentList)
               })
               .catch(function () {
                   this.$toast(this.$ERRCODE.STATIC_ERRORCDDE.EXCEPTION);

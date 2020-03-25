@@ -73,7 +73,7 @@
            .then(function (res) {
                const data = JSON.parse(res.data);
                const records = data.records
-               //console.log(records)
+               console.log(records)
               if (records == null || records.length === 0) {
                 // 加载结束
                 this.upFinished = true

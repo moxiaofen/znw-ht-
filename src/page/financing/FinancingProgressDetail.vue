@@ -89,30 +89,34 @@
       <!--横线-->
       <Divider class="divider"></Divider>
 
-      <div class='cont-sides'>
-          <p class="cont-item">应收账款清单</p>
-          <img v-if="false"  class="add-img" src="static/assets/icon_add.png"/>
-      </div>
-      <ul>
-        <li v-for="(item,index) in acctList" :key='index' @click="toDetail(item.invoiceNo,'finance',item)">
-          <div class="receivables-lib">
-              <div class=" item-receivables-line1">
-                <div>
-                  <span class="receivables-name">{{item.draweeName}}</span>
-                  <span class="receivables-no">{{item.tradeContractNo}}</span>
-                </div>
-              </div>
-
-              <div class="item-receivables-line2">
-                <span class="receivables-amount">{{item.contractAmt}}</span>
-              </div>
-              <div class="item-receivables-line3">
-                <span class="receivables-data">{{item.paymentEndDate}}</span>
-              </div>
+      <!-- 列表数据 -->
+      <div>
+          <div class='cont-sides'>
+              <p class="cont-item">应收账款清单</p>
+              <img v-if="false"  class="add-img" src="static/assets/icon_add.png"/>
           </div>
-        </li>
-      </ul>
-      <div v-if='tipShow' class="tip">暂无应收账款数据</div>
+          <ul>
+            <li v-for="(item,index) in acctList" :key='index' @click="toDetail(item.invoiceNo,'finance',item)">
+              <div class="receivables-lib">
+                  <div class=" item-receivables-line1">
+                    <div>
+                      <span class="receivables-name">{{item.draweeName}}</span>
+                      <span class="receivables-no">{{item.tradeContractNo}}</span>
+                    </div>
+                  </div>
+
+                  <div class="item-receivables-line2">
+                    <span class="receivables-amount">{{item.contractAmt}}</span>
+                  </div>
+                  <div class="item-receivables-line3">
+                    <span class="receivables-data">{{item.paymentEndDate}}</span>
+                  </div>
+              </div>
+            </li>
+          </ul>
+          <div v-if='tipShow' class="tip">暂无应收账款数据</div>
+      </div>
+
 
     </div>
   </div>
