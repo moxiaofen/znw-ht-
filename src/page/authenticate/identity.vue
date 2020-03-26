@@ -365,7 +365,7 @@
                   this.dataFileListId[0] = this.handleFileId('inputImg1');
                   this.dataFileListId[0].fileInput = this.$refs.img1.src.slice(22);
                   this.dataFileListId[1] = this.handleFileId('inputImg2');
-                  this.dataFileListId[1].fileInput = this.$refs.img1.src.slice(22);
+                  this.dataFileListId[1].fileInput = this.$refs.img2.src.slice(22);
                   this.handleFileList = this.dataFileListId;
               }else{
                   //企业验证custName custIdType custIdNo

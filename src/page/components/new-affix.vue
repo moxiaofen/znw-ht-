@@ -152,7 +152,7 @@
           submitHandleFile(){
               //inputfile的base64字符串去掉','前的部分，不然传给后端的数据有误
               const dataFile = this.handleFile();
-              dataFile.fileInput = this.$refs.img.src.slice(22);
+              dataFile.fileInput = this.$refs.img.src.split(",")[1];
               this.dataFileList.push(dataFile);
               console.log(this.dataFileList);
               this.show = false;
